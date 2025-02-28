@@ -1,8 +1,8 @@
-import os  # Модуль для работы с файловой системой
-import csv  # Модуль для работы с CSV-файлами
-import zipfile  # Модуль для работы с архивами
-from openpyxl import Workbook  # Для работы с Excel-файлами
-from PyPDF2 import PdfWriter, PdfReader  # Для создания и чтения PDF-файлов
+import os
+import csv
+import zipfile
+from openpyxl import Workbook
+from PyPDF2 import PdfWriter, PdfReader
 
 
 # Создание папки, если ее нет
