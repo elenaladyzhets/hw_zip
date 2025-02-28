@@ -11,13 +11,13 @@ os.makedirs("tmp", exist_ok=True)
 #  Создание PDF-файла
 pdf_path = "tmp/book.pdf"
 pdf_writer = PdfWriter()
-pdf_writer.add_blank_page(width=200, height=200)  # Д+ пустая страница в PDF
+pdf_writer.add_blank_page(width=200, height=200)  # Добавляем пустую страницу в PDF
 with open(pdf_path, "wb") as f:  # бинарный режим
     pdf_writer.write(f)
 
 # Создание Excel-файла
 xlsx_path = "tmp/table.xlsx"
-workbook = Workbook()  # объект  Excel
+workbook = Workbook()  # объект Excel
 sheet = workbook.active
 sheet["A1"] = "Name"
 sheet["B1"] = "Age"
@@ -47,8 +47,11 @@ with zipfile.ZipFile(zip_path, "r") as archive:  # архив для чтени�
         with archive.open(file_name) as file:  # открываем файл из архива
             print(f"\nСодержимое файла {file_name}:")
             if file_name.endswith(".pdf"):  # Если файл PDF
-                reader = PdfReader(file)
-                print(f"Количество страниц в PDF: {len(reader.pages)}")
+                with open("tmp/temp_pdf.pdf", "wb") as temp_pdf:  # Временный файл для чтения PDF
+                    temp_pdf.write(file.read())
+                with open("tmp/temp_pdf.pdf", "rb") as temp_pdf_binary:
+                    reader = PdfReader(temp_pdf_binary)
+                    print(f"Количество страниц в PDF: {len(reader.pages)}")
             elif file_name.endswith(".xlsx"):  # Если файл Excel
                 from openpyxl import load_workbook
                 workbook = load_workbook(file)
@@ -57,5 +60,5 @@ with zipfile.ZipFile(zip_path, "r") as archive:  # архив для чтени�
                     print(row)
             elif file_name.endswith(".csv"):  # Если файл CSV
                 reader = csv.reader(file.read().decode("utf-8").splitlines())
-                for row in reader:  #
+                for row in reader:
                     print(row)
